@@ -1,0 +1,250 @@
+.marqueeContainer {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background-color: black;
+
+  display: flex;
+
+  width: 100%;
+}
+
+.firstItemMarquee {
+  display: flex;
+}
+.marqueeItem {
+  color: white;
+  width: fit-content;
+  font-weight: bold;
+  display: flex;
+  flex-basis: 50%;
+  align-items: center;
+  margin-right: 300px;
+
+  & > :first-child {
+    margin-right: 10px;
+  }
+}
+
+.topNavigation {
+  padding: 36px 0 36px 0;
+}
+
+// phần nav
+
+.navContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px 0 20px;
+  gap: 30px;
+}
+.logoShop {
+  flex-basis: 40%;
+
+  img {
+    width: 100%;
+    height: 100%;
+    max-width: 200px;
+  }
+}
+
+.searchContainer {
+  max-width: 600px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: var(--main-color-black);
+  border-radius: 5px;
+  input {
+    height: 50px;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 1.4rem;
+    padding: 8px 12px 8px 25px;
+
+    &::placeholder {
+      color: white;
+    }
+  }
+  button {
+    position: absolute;
+    right: 0;
+    height: 40px;
+    padding: 0 15px;
+    border-radius: 5px;
+    border: none;
+    top: 5px;
+    right: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+}
+
+.helpAndUser {
+  display: flex;
+  align-items: center;
+
+  gap: 30px;
+  & > :first-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    flex-shrink: 0;
+    p {
+      font-weight: bold;
+    }
+  }
+}
+
+.userIcon {
+  a {
+    & > :first-child {
+      &:hover {
+        color: var(--main-color-primary);
+        transition: color 0.4s ease-in-out;
+      }
+    }
+  }
+}
+
+.wrapperCategories {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  border-top: 1px solid var(--1-main-colors--border);
+  border-bottom: 1px solid var(--1-main-colors--border);
+}
+.containerCategories {
+  padding: 12px 0 12px 0;
+  width: 1440px;
+  & > :first-child {
+    padding: 0 20px 0 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .divider {
+    width: 1px;
+    background-color: var(--1-main-colors--border);
+  }
+}
+
+.navListContainer {
+  display: flex;
+  gap: 30px;
+}
+
+.offerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  // p
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  & > :first-child {
+    font-weight: 800;
+    font-size: 1.7rem;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--main-color-primary);
+      transition: color 0.3s linear;
+    }
+  }
+  .hamIconContainer {
+    display: none;
+  }
+}
+.tagSaleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  img {
+    height: 20px;
+    width: 20px;
+    object-fit: cover;
+    transform: rotate(-180deg);
+    margin-right: -5px;
+  }
+  div {
+    width: 38px;
+    height: 20px;
+    background-color: var(--1-main-colors--price);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p {
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+  }
+}
+
+.pageContainer {
+  background-color: white;
+  border-radius: 20px;
+  padding: 40px;
+  border: 1px solid var(--1-main-colors--border);
+  font-size: 1.8rem;
+  font-weight: bold;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+
+  div {
+    cursor: pointer;
+    a {
+      &:hover {
+        color: var(--main-color-primary);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 990px) {
+  .navContainer {
+    gap: 20px;
+  }
+  .helpAndUser {
+    & > :first-child {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .searchContainer {
+    min-width: 230px;
+  }
+  .helpAndUser {
+    gap: 10px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .divider,
+  .navListContainer {
+    display: none;
+  }
+  .offerContainer .hamIconContainer {
+    display: block;
+  }
+}

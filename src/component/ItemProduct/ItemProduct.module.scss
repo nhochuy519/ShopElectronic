@@ -1,0 +1,84 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid var(--1-main-colors--border);
+  border-radius: 20px;
+  padding: 25px 15px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border 0.4s linear;
+  &:hover {
+    border-color: var(--main-color-primary);
+  }
+  &:hover .imgContainer {
+    & > :first-child {
+      animation: imgIn 0.4s forwards;
+      color: var(--main-color-primary);
+    }
+  }
+  &:not(:hover) .imgContainer {
+    & > :first-child {
+      animation: imgOut 0.4s forwards;
+    }
+  }
+
+  &:hover .tilte {
+    animation: textIn 0.4s forwards;
+  }
+  &:not(:hover) .tilte {
+    animation: textOut 0.4s forwards;
+  }
+}
+.imgContainer {
+  transition: color 0.4s ease-out;
+  & > :first-child {
+    font-size: 5rem;
+    transform: translate3d(0, 15px, 0);
+    color: black;
+    transition: color 0.4s ease-out;
+  }
+}
+.tilte {
+  font-size: 2rem;
+  font-weight: bold;
+  transform: translate3d(0, 30px, 0);
+  opacity: 0;
+}
+
+@keyframes imgIn {
+  from {
+    transform: translate3d(0, 15px, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes imgOut {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 15px, 0);
+  }
+}
+@keyframes textIn {
+  from {
+    transform: translate3d(0, 30px, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@keyframes textOut {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, 30px, 0);
+    opacity: 0;
+  }
+}

@@ -1,0 +1,73 @@
+.wrapper {
+  max-width: 1440px;
+  margin: 0px auto;
+  padding: 0 20px 0 20px;
+  overflow: hidden;
+  margin-bottom: 33px;
+}
+
+.productBarText {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+  h2 {
+    font-size: 3.8rem;
+    line-height: 50px;
+  }
+}
+.borderLine {
+  width: 0%;
+  height: 1px;
+  background-color: var(--main-color-primary);
+  transition: width 2s linear;
+}
+.animationTextWrapper {
+  overflow: hidden;
+  height: auto;
+}
+.animationTilte {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 50px;
+  line-height: 50px;
+  color: var(--main-color-primary);
+  transform: translateY(0);
+}
+.addAnimation {
+  animation: animationText 11s 2s ease infinite forwards;
+}
+
+@keyframes animationText {
+  0%,
+  25% {
+    transform: translateY(0%);
+  }
+  25%,
+  50% {
+    transform: translateY(-100%);
+  }
+  50%,
+  75% {
+    transform: translateY(-200%);
+  }
+  75%,
+  100% {
+    transform: translateY(-300%);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .buttonWrapper {
+    display: none;
+  }
+}

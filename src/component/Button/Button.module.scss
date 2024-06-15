@@ -1,0 +1,89 @@
+.wrapper {
+  background-color: transparent;
+  width: fit-content;
+  padding: 12px 35px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 5px;
+
+  cursor: pointer;
+  &:hover .bgColor {
+    animation: bgcolorIn 0.5s forwards;
+  }
+  &:not(:hover) .bgColor {
+    animation: bgcolorOut 0.5s forwards;
+  }
+  &:hover .textWrapper p {
+    animation: textHoverIn 0.5s forwards;
+  }
+  &:not(:hover) .bgColor {
+    animation: bgcolorOut 0.5s forwards;
+  }
+  &:not(:hover) .textWrapper p {
+    animation: textHoverOut 0.5s forwards;
+  }
+  // &:not(:hover) .bgColor {
+  //   animation: bgcolorOut 0.5s forwards;
+  // }
+}
+
+.textWrapper {
+  font-size: 1.6rem;
+  max-height: 24px;
+  overflow: hidden;
+  font-weight: 700;
+  position: relative;
+  z-index: 99;
+}
+
+.bgColor {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  height: 120%;
+  width: 120%;
+  border-radius: 30px;
+}
+
+@media screen and (max-width: 522px) {
+  .wrapper {
+    padding: 10px 26px;
+  }
+}
+
+@keyframes bgcolorIn {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+@keyframes bgcolorOut {
+  from {
+    transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes textHoverIn {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+@keyframes textHoverOut {
+  from {
+    transform: translate3d(0, -100%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}

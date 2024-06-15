@@ -1,0 +1,133 @@
+.content {
+  padding: 0 20px 0 20px;
+  margin: 0 auto;
+  margin-top: 70px;
+  max-width: 1440px;
+}
+.wrapper {
+  width: 100%;
+  background-color: var(--main-color-black);
+
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  color: white;
+  gap: 20px;
+
+  align-items: center;
+  padding: 80px 30px 50px 50px;
+}
+
+.info {
+  width: 50%;
+  animation: infoEffect 0.4s ease-in-out;
+  // transition: transform 0.4s ease-in-out  ;
+
+  h1 {
+    font-size: 5.2rem;
+    line-height: 140%;
+    font-weight: 800;
+    margin-top: 10px;
+  }
+  h2 {
+    font-size: 3.6rem;
+    margin: 50px 0 30px 0;
+    line-height: 50px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+.containerImg {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: productEffect 0.4s ease-in-out;
+
+  img {
+    width: 100%;
+    max-width: 550px;
+    max-height: 379px;
+    object-fit: contain;
+  }
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 20px;
+}
+
+.buttonSlider {
+  height: 40px;
+  width: 100%;
+  padding-top: 10px;
+  justify-content: center;
+  position: relative;
+}
+
+.buttonWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  div {
+    width: 16px;
+    height: 16px;
+    // background-color: var(--main-color-primary);
+    margin: 0 3px 8px 3px;
+    border-radius: 999px;
+    background-color: white;
+    transition: width 0.4s ease-in-out;
+  }
+}
+
+.slideDot:first-child {
+  width: 50px;
+  background-color: var(--main-color-primary);
+}
+
+@keyframes infoEffect {
+  from {
+    transform: translate3d(0, -100%, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0%, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes productEffect {
+  from {
+    transform: translate3d(0, 100%, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0%, 0);
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .container {
+    flex-direction: column;
+  }
+  .container {
+    padding: 70px 20px 50px 30px;
+  }
+  .info,
+  .containerImg {
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .info {
+    h1 {
+      font-size: 4.6rem;
+    }
+  }
+}
