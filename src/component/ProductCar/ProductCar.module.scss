@@ -6,21 +6,34 @@
   border-radius: 10px;
   overflow: hidden;
   transition: border 0.4s linear;
+  height: 100%;
   &:hover {
     border: 1px solid var(--main-color-primary);
   }
 }
 
+.flexRow {
+  flex-direction: row;
+  align-items: center;
+  .productThumnailWrapper {
+    max-width: 300px;
+  }
+  .inforProduct {
+    width: 100%;
+  }
+}
 .productThumnailWrapper {
   position: relative;
-  padding: 25px 0 25px 0;
+  padding: 25px 10px 25px 10px;
   transition: all 0.4s linear;
-  max-height: 300px;
+  max-height: 280px;
   border-radius: 10px;
   overflow: hidden;
+
   img {
     width: 100%;
     height: 100%;
+
     object-fit: contain;
   }
   &:hover .imgHover {
@@ -102,18 +115,13 @@
   font-size: 2rem;
   font-weight: 700;
   transition: all 0.4s linear;
+
   cursor: pointer;
   &:hover {
     color: var(--main-color-primary);
   }
 }
 
-.starWrapper {
-  color: var(--main-color-yellow-star);
-  * {
-    font-size: 1.8rem;
-  }
-}
 .priceWrapper {
   font-size: 1.6rem;
   color: var(--1-main-colors--price);
@@ -165,5 +173,11 @@
   }
   to {
     transform: translateX(50px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .productThumnailWrapper {
+    max-height: 491px;
   }
 }

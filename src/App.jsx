@@ -3,6 +3,10 @@ import { Fragment } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { publicRouter } from './routes';
 import DefaultLayout from './component/Layout/DefaultLayout';
+
+function ContainerApp({ children }) {
+  return children;
+}
 function App() {
   return (
     <BrowserRouter>
@@ -16,9 +20,11 @@ function App() {
                 key={index}
                 path={item.patch}
                 element={
-                  <Layout>
-                    <Page />
-                  </Layout>
+                  <ContainerApp>
+                    <Layout>
+                      <Page />
+                    </Layout>
+                  </ContainerApp>
                 }
               />
             );

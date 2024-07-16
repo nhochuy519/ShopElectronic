@@ -1,0 +1,64 @@
+.wrapper {
+  max-width: 1440px;
+  padding: 0 20px 0 20px;
+  margin: 0 auto;
+}
+.mobileBanner {
+  margin-top: 150px;
+  display: flex;
+  padding: 62px 62px 0px 90px;
+  background-color: black;
+  border-radius: 30px;
+  gap: 50;
+  position: relative;
+}
+
+.content {
+  padding-bottom: 62px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 60%;
+
+  h2 {
+    font-size: 3.8rem;
+    line-height: 50px;
+    font-weight: 800;
+  }
+}
+.headPhone {
+  position: absolute;
+  max-width: 300px;
+  right: 80px;
+  bottom: 0;
+}
+
+@media screen and (max-width: 990px) {
+  .mobileBanner {
+    display: flex;
+    flex-direction: column;
+  }
+  .content {
+    width: 100%;
+  }
+  .headPhoneContainer {
+    display: flex;
+    right: 0;
+    justify-content: center;
+    width: 100%;
+  }
+  .headPhone {
+    position: static;
+  }
+}
+@media screen and (max-width: 755px) {
+  .mobileBanner {
+    padding: 0;
+    padding-top: 62px;
+  }
+  .content {
+    width: 100%;
+    padding: 0 35px 40px 35px;
+  }
+}

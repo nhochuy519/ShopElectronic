@@ -61,4 +61,57 @@ const ListProducts = [
   },
 ];
 
-export { ListProducts };
+const listForTab = [
+  {
+    icon: <CiHeadphones />,
+    name: 'Headphone',
+  },
+  {
+    icon: <TbDeviceCctv />,
+    name: 'CCTV',
+  },
+  {
+    icon: <BsMouse />,
+    name: 'Mouse',
+  },
+  {
+    icon: <FiMonitor />,
+    name: 'Monitor',
+  },
+  {
+    icon: <FaRegKeyboard />,
+    name: 'Keyboard',
+  },
+  {
+    icon: <MdOutlineSpeaker />,
+    name: 'Speaker',
+  },
+  {
+    icon: <IoIosPhonePortrait />,
+    name: 'Phone',
+  },
+  {
+    icon: <IoIosLaptop />,
+    name: 'Laptop',
+  },
+];
+
+const brands = [
+  {
+    name: 'Asus',
+  },
+  {
+    name: 'Msi',
+  },
+  {
+    name: 'HyperX',
+  },
+  {
+    name: 'Lenovo',
+  },
+  {
+    name: 'Apple',
+  },
+];
+
+export { ListProducts, listForTab, brands };

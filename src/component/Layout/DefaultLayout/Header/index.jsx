@@ -18,9 +18,28 @@ import ContainerCategories from '`/component/ContainerCateItems';
 
 import Tippy from '@tippyjs/react/headless';
 
+import { useEffect, useRef, useState } from 'react';
+
 function Header() {
   const classNames = clsx(styles.marqueeContainer);
-  console.log('re-render');
+
+  const categories = useRef(null);
+
+  const handleScroll = () => {
+    if (window.pageYOffset > categories.current.offsetTop) {
+      categories.current.style.position = 'fixed';
+      categories.current.style.top = '0';
+    } else {
+      categories.current.style.position = 'relative';
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   return (
     <header>
       <div className={classNames}>
@@ -88,7 +107,7 @@ function Header() {
       {/** kết thúc*/}
 
       {/* phần categories */}
-      <div className={styles.wrapperCategories}>
+      <div className={styles.wrapperCategories} ref={categories}>
         <div className={styles.containerCategories}>
           <div>
             <div>

@@ -1,0 +1,232 @@
+.wrapper {
+  padding: 20px 20px 20px 30px;
+  border: 1px solid var(--main-color-primary);
+  border-radius: 10px;
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+.featuredThumnail {
+  width: 60%;
+  height: 100%;
+  position: relative;
+  cursor: pointer;
+  &:hover .cart {
+    animation: cartEyeIn 0.3s ease-out forwards;
+  }
+  &:not(:hover) .cart {
+    animation: cartEyeOut 0.3s ease-out forwards;
+  }
+
+  &:hover .eye {
+    animation: cartEyeIn 0.25s ease-out forwards;
+  }
+  &:not(:hover) .eye {
+    animation: cartEyeOut 0.25s ease-out forwards;
+  }
+}
+.featuredTab {
+  display: flex;
+  align-items: center;
+  min-height: 450px;
+}
+.thumnailWrapper {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+  flex-direction: column;
+  margin-top: 30px;
+
+  div {
+    width: 78px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid;
+    border-radius: 10px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+}
+
+.tabContent {
+  margin-left: 30px;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    max-height: 400px;
+    object-fit: cover;
+    max-width: 100%;
+  }
+}
+
+.addToCart {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 25px;
+  max-height: 85px;
+  left: auto;
+  right: 10px;
+  gap: 10px;
+  z-index: 2;
+
+  div {
+    width: 35px;
+    height: 35px;
+    border-radius: 999px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    transform: translateX(50px);
+  }
+  & > :first-child {
+    background-color: var(--main-color-primary);
+  }
+  & > :nth-child(2) {
+    background-color: var(--1-main-colors--price);
+    font-size: 1.7rem;
+  }
+}
+
+.featuredInfo {
+  width: 40%;
+  padding: 30px 0 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title {
+  line-height: 140%;
+  font-size: 3rem;
+  font-weight: 800;
+}
+.price {
+  font-size: 2.4rem;
+  color: var(--1-main-colors--price);
+  font-weight: 800;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+.description {
+  line-height: 28px;
+  font-size: 1.6rem;
+  color: var(--1-main-colors--paragraph);
+  font-weight: 600;
+}
+.idProduct,
+.stock {
+  font-size: 1.6rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bttWrapper {
+  width: 100%;
+  margin-top: 30px;
+  div {
+    width: 100%;
+    padding: 12px 15px 12px 15px;
+    border-radius: 5px;
+    background-color: var(--main-color-primary);
+    border: 1px solid var(--main-color-primary);
+    color: white;
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-align: center;
+    transition: all 0.2s linear;
+    &:hover {
+      background-color: white;
+      color: var(--main-color-primary);
+    }
+  }
+}
+
+.sliderNav {
+  //   width: 100%;
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  //   position: absolute;
+  //   bottom: -40px;
+
+  align-items: center;
+  position: absolute;
+  bottom: -40px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding-top: 10px;
+  div {
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    background-color: var(--1-main-colors--border);
+    margin: 0 3px 8px;
+    transition: width 0.3s linear;
+  }
+}
+
+.active {
+  width: 50px !important;
+  background-color: var(--main-color-primary) !important;
+}
+
+@keyframes cartEyeIn {
+  from {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+@keyframes cartEyeOut {
+  from {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  .featuredInfo,
+  .featuredThumnail {
+    width: 100%;
+  }
+  .featuredInfo {
+    padding-left: 0;
+  }
+
+  .tabContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

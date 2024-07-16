@@ -9,6 +9,7 @@ import Login from '`/pages/Login';
 import Categories from '`/pages/Category';
 import FAQ from '`/pages/FAQ';
 import PrivacyPolicy from '`/pages/PrivacyPolicy';
+import Product from '`/pages/Product';
 
 // public routes
 const publicRouter = [
@@ -25,9 +26,10 @@ const publicRouter = [
     component: About,
   },
   {
-    patch: '/shop',
+    patch: '/shop/*',
     component: Shop,
   },
+
   {
     patch: '/contact',
     component: Contact,
@@ -35,6 +37,10 @@ const publicRouter = [
   {
     patch: '/blog',
     component: Blog,
+  },
+  {
+    patch: '/product/:id',
+    component: Product,
   },
   {
     patch: '/sign-up',

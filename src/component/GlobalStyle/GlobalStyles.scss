@@ -1,11 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 :root {
-  --main-color-primary: #0068c8;
+  // --main-color-primary: #0068c8;
+  --main-color-primary: #9e7dec;
   --main-color-black: #000;
   --1-main-colors--border: #e7eaee;
   --1-main-colors--price: #da000b;
   --main-color-yellow-star: #fdbf60;
+  --1-main-colors--paragraph: #848484;
+  --1-main-colors--extra: #f4f4f4;
 }
 
 //ap dung cho tat ca cac phan tu
@@ -22,4 +25,8 @@ body {
   font-family: 'Mulish', sans-serif;
   font-size: 1.6rem;
   line-height: 140%;
+}
+.css-rppfq7-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+  background-color: var(--main-color-primary) !important;
+  color: white !important;
 }

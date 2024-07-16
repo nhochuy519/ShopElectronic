@@ -5,16 +5,15 @@ import Button from '../Button';
 import clsx from 'clsx';
 
 import { useEffect, useRef, useState } from 'react';
-function ProductBar() {
+function ProductBar({ title, firstText, secondText, thirdText }) {
   const [animation, setAnimation] = useState(false);
-  console.log('re-render');
+
   const animationText = clsx(styles.animationTilte, {
     [styles.addAnimation]: animation,
   });
   const textAnimation = useRef(null);
   const borderLine = useRef(null);
   useEffect(() => {
-    console.log('chạy useEffect');
     const observer = new IntersectionObserver(
       (entries, observer) => {
         entries.forEach((entry) => {
@@ -49,13 +48,13 @@ function ProductBar() {
     <div className={styles.wrapper}>
       <div className={styles.productBarText}>
         <div className={styles.title}>
-          <h2>Lastest</h2>
+          <h2>{title}</h2>
           <div className={styles.animationTextWrapper}>
             <div className={animationText} ref={textAnimation}>
-              <h2 className={styles.firstText}> Products</h2>
-              <h2 className={styles.secondText}>Headphones</h2>
-              <h2 className={styles.thirdText}>Speakers</h2>
-              <h2 className={styles.firstText}> Products</h2>
+              <h2 className={styles.firstText}> {firstText}</h2>
+              <h2 className={styles.secondText}>{secondText}</h2>
+              <h2 className={styles.thirdText}>{thirdText}</h2>
+              <h2 className={styles.firstText}> {firstText}</h2>
             </div>
           </div>
         </div>
