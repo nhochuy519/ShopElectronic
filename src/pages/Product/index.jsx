@@ -88,22 +88,25 @@ function Product(props) {
           </div>
         </div>
         <div className={styles.contentProduct}>
-          <h2>Headphone</h2>
+          <h2>{product ? product.name : undefined}</h2>
           <div className={styles.startContainer}>
             <Star />
           </div>
           <div className={styles.priceContainer}>
             <div style={{ color: 'var(--main-color-primary)' }}>
-              $ 80.00 USD
+              {product ? product.price : ''} $
             </div>
-            <div>$ 80.00 USD</div>
+
+            <div style={{ color: 'red', textDecoration: 'line-through' }}>
+              {product
+                ? product.priceDiscount
+                  ? `${product.priceDiscount} $`
+                  : ''
+                : '123'}
+            </div>
           </div>
           <div className={styles.description}>
-            <p>
-              Effect font move vertical share. Connection frame edit export
-              arrow. Undo device move opacity image layer. List star blur
-              strikethrough arrow.
-            </p>
+            <p>{product && product.description}</p>
           </div>
 
           <div className={styles.wrapperCart}>

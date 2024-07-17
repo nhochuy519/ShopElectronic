@@ -58,7 +58,7 @@ const publicRouter = [
   },
   {
     patch: '/category/:sub',
-    component: Categories,
+    component: Shop,
   },
   {
     patch: '/faq',

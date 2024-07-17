@@ -9,15 +9,41 @@ import { AiOutlineAppstore } from 'react-icons/ai';
 
 import { clsx } from 'clsx';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import ProductCart from '`/component/ProductCar';
 import { ListProducts, brands } from '`/ListProducts';
 
 import { Pagination, PaginationItem } from '@mui/material';
 
+import instance from '`/apiConfig';
+
 function Shop() {
   const [layout, setLayout] = useState('column');
+
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setPage] = useState(1);
+  const [products, setProducts] = useState([]);
+  const [filter, setFilter] = useState(null);
+
+  useEffect(() => {
+    instance.get(`/product`).then((result) => {
+      setTotalPages(Math.ceil(result.data.length / 9));
+    });
+  }, []);
+
+  useEffect(() => {
+    let url = `/product?limit=9&page=${page}`;
+    if (filter) {
+      url = `/product?limit=9&page=${page}&category=${filter}`;
+    }
+    console.log(url);
+    instance.get(url).then((result) => {
+      console.log(result.data.data.products);
+      setProducts(result.data.data.products);
+    });
+  }, [page, filter]);
+
   return (
     <div className={styles.wrapper}>
       <BBlock
@@ -41,7 +67,18 @@ function Shop() {
             <div className={styles.lists}>
               {ListProducts.map((item, index) => {
                 return (
-                  <Link to={`/shop/${item.name.toLowerCase()}`} key={index}>
+                  <Link
+                    style={
+                      filter === item.name.toLowerCase()
+                        ? { color: 'var(--main-color-primary)' }
+                        : {}
+                    }
+                    to={`/shop/${item.name.toLowerCase()}`}
+                    key={index}
+                    onClick={() => {
+                      setFilter(item.name.toLowerCase());
+                    }}
+                  >
                     <div className={styles.list}>
                       <div>{item.name}</div>
 
@@ -98,22 +135,26 @@ function Shop() {
               [styles.showProductsCl]: layout === 'column',
             })}
           >
-            {[0, 1, 2, 4].map((item, index) => {
-              return (
-                <ProductCart
-                  flexRow={layout === 'row' ? true : false}
-                  key={index}
-                />
-              );
-            })}
+            {products
+              ? products.map((item, index) => {
+                  return (
+                    <ProductCart
+                      flexRow={layout === 'row' ? true : false}
+                      key={index}
+                      data={item}
+                    />
+                  );
+                })
+              : null}
           </div>
           <div className={styles.wrapperPagination}>
             <Pagination
               selected
-              count={10}
+              count={totalPages ? totalPages : 0}
               size={'large'}
               onChange={(e, item) => {
-                console.log(item);
+                window.scrollTo(0, 0);
+                setPage(item);
               }}
               sx={{
                 '& .MuiPaginationItem-root': {
