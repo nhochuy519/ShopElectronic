@@ -14,7 +14,7 @@ import { useState, useEffect } from 'react';
 import ProductCart from '`/component/ProductCar';
 import { ListProducts, brands } from '`/ListProducts';
 
-import { Pagination, PaginationItem } from '@mui/material';
+import { Pagination } from '@mui/material';
 
 import instance from '`/apiConfig';
 
@@ -26,6 +26,7 @@ function Shop() {
   const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState(null);
 
+  console.log(filter);
   useEffect(() => {
     instance.get(`/product`).then((result) => {
       setTotalPages(Math.ceil(result.data.length / 9));

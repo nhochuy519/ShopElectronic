@@ -18,12 +18,39 @@ import ContainerCategories from '`/component/ContainerCateItems';
 
 import Tippy from '@tippyjs/react/headless';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
+
+import instance from '`/apiConfig';
+
+import lodash from 'lodash';
 
 function Header() {
   const classNames = clsx(styles.marqueeContainer);
 
   const categories = useRef(null);
+
+  const [value, setValue] = useState('');
+  const [product, setProducts] = useState();
+
+  console.log(product);
+
+  const callApi = (value) => {
+    instance.get(`/product?name=${value}&limit=5`).then((result) => {
+      console.log('callapi');
+      console.log(result.data.data.products);
+      setProducts(result.data.data.products);
+    });
+  };
+
+  const debounce = useCallback(lodash.debounce(callApi, 1000), []);
+
+  useEffect(() => {
+    if (value) {
+      debounce(value);
+    }
+  }, [value]);
+
+  console.log(value);
 
   const handleScroll = () => {
     if (window.pageYOffset > categories.current.offsetTop) {
@@ -62,7 +89,13 @@ function Header() {
           </Link>
 
           <div className={styles.searchContainer}>
-            <input placeholder="What are you looking for?" />
+            <input
+              value={value}
+              placeholder="What are you looking for?"
+              onInput={(e) => {
+                setValue(e.target.value);
+              }}
+            />
             <button>
               <GoSearch
                 style={{
@@ -70,6 +103,33 @@ function Header() {
                 }}
               />
             </button>
+            <div
+              className={clsx(styles.searchResult, {
+                [styles.searchResultActive]: value,
+              })}
+            >
+              {product
+                ? product.map((item, index) => {
+                    return (
+                      <Link
+                        key={index}
+                        to={`/product/${item._id}`}
+                        onClick={() => {
+                          setValue('');
+                          setProducts();
+                        }}
+                      >
+                        <div className={styles.result}>
+                          <div>{item.name}</div>
+                          <div className={styles.imageResult}>
+                            <img src={item.images[0]} alt="product" />
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })
+                : null}
+            </div>
           </div>
           <div className={styles.helpAndUser}>
             <div>
