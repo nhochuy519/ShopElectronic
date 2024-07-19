@@ -18,6 +18,8 @@ import { Pagination } from '@mui/material';
 
 import instance from '`/apiConfig';
 
+import { useLocation } from 'react-router-dom';
+
 function Shop() {
   const [layout, setLayout] = useState('column');
 
@@ -26,7 +28,8 @@ function Shop() {
   const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState(null);
 
-  console.log(filter);
+  const location = useLocation();
+
   useEffect(() => {
     instance.get(`/product`).then((result) => {
       setTotalPages(Math.ceil(result.data.length / 9));
@@ -34,13 +37,20 @@ function Shop() {
   }, []);
 
   useEffect(() => {
-    let url = `/product?limit=9&page=${page}`;
-    if (filter) {
-      url = `/product?limit=9&page=${page}&category=${filter}`;
+    const query = new URLSearchParams(location.search);
+    const category = query.get('category');
+    console.log(category);
+    let url;
+    if (category === 'all') {
+      url = `/product?limit=9&page=${page}`;
+    } else if (category !== 'all') {
+      if (!filter) {
+        url = `/product?limit=9&page=${page}&category=${category}`;
+      } else {
+        url = `/product?limit=9&page=${page}&category=${filter}`;
+      }
     }
-    console.log(url);
     instance.get(url).then((result) => {
-      console.log(result.data.data.products);
       setProducts(result.data.data.products);
     });
   }, [page, filter]);
@@ -74,9 +84,15 @@ function Shop() {
                         ? { color: 'var(--main-color-primary)' }
                         : {}
                     }
-                    to={`/shop/${item.name.toLowerCase()}`}
+                    to={`/shop?category=${item.name.toLowerCase()}`}
                     key={index}
                     onClick={() => {
+                      if (page !== 1) {
+                        setPage(1);
+                      }
+                      if (filter === item.name.toLowerCase()) {
+                        return setFilter(null);
+                      }
                       setFilter(item.name.toLowerCase());
                     }}
                   >
@@ -151,6 +167,7 @@ function Shop() {
           <div className={styles.wrapperPagination}>
             <Pagination
               selected
+              page={page}
               count={totalPages ? totalPages : 0}
               size={'large'}
               onChange={(e, item) => {

@@ -18,7 +18,6 @@ import StarEvaluate from '`/component/StarEvaluate';
 import BBlock from '`/component/BreadcrumbBlock';
 
 import { useEffect, useCallback } from 'react';
-import lodash from 'lodash';
 
 import instance from '`/apiConfig';
 
@@ -50,13 +49,14 @@ function Product(props) {
       });
     }
   }, [id]);
+
   return (
     <div className={styles.wrapper}>
       <BBlock
         pages={[
           {
             name: 'Shop',
-            path: '/shop',
+            path: '/shop?category=all',
           },
           {
             name: 'Razer Headphone',

@@ -43,6 +43,10 @@ const publicRouter = [
     component: Product,
   },
   {
+    patch: '/product',
+    component: Product,
+  },
+  {
     patch: '/sign-up',
     component: SignUp,
     layout: null,
