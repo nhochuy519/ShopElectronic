@@ -15,9 +15,6 @@ function TabMenu() {
   const [tabIndex, setIndex] = useState(0);
   const [content, setContent] = useState([]);
 
-  if (content[tabIndex]?.products) {
-    console.log('du lieu content', content[tabIndex]);
-  }
   useEffect(() => {
     instance.get('/product/tabContent').then((data) => {
       setContent(data.data.data.limitedProducts);
@@ -51,7 +48,6 @@ function TabMenu() {
           
           // : null} */}
         {content[tabIndex]?.products.map((item, index) => {
-          console.log(item);
           return (
             <div key={index} className={styles.content}>
               <ProductCart flexRow data={item} />

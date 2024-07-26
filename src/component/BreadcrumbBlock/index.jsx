@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 
 import clsx from 'clsx';
 function BBlock({ pages = [] }) {
+  // eslint-disable-next-line no-unused-vars
   const breadCrumb = clsx(styles.breadCrumb, {});
-  console.log(pages);
+
   return (
     <div className={styles.wrapper}>
       <Link className={styles.breadcrumb} to={'/'}>
@@ -13,7 +14,7 @@ function BBlock({ pages = [] }) {
       {pages.map((item, index) => {
         return (
           <>
-            <div className={styles.breadcrumbLine}></div>
+            <div className={styles.breadcrumbLine} key={index}></div>
             <Link
               className={clsx(styles.breadcrumb, {
                 [styles.breadcrumbActive]: index === pages.length - 1,

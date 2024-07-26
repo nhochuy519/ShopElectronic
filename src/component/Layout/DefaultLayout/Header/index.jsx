@@ -24,7 +24,18 @@ import instance from '`/apiConfig';
 
 import lodash from 'lodash';
 
+import { useSelector, useDispatch } from 'react-redux';
+
+import { useNavigate } from 'react-router-dom';
+
 function Header() {
+  const valueSeach = useSelector((state) => state.search);
+
+  useEffect(() => {
+    console.log(valueSeach);
+  }, [valueSeach]);
+
+  const navigate = useNavigate();
   const classNames = clsx(styles.marqueeContainer);
 
   const categories = useRef(null);
@@ -32,7 +43,12 @@ function Header() {
   const [value, setValue] = useState('');
   const [product, setProducts] = useState();
 
-  console.log(product);
+  const handlePressEnter = (e) => {
+    if (e.key === 'Enter') {
+      navigate('/shop');
+      setValue('');
+    }
+  };
 
   const callApi = (value) => {
     instance.get(`/product?name=${value}&limit=5`).then((result) => {
@@ -49,8 +65,6 @@ function Header() {
       debounce(value);
     }
   }, [value]);
-
-  console.log(value);
 
   const handleScroll = () => {
     if (window.pageYOffset > categories.current.offsetTop) {
@@ -95,6 +109,7 @@ function Header() {
               onInput={(e) => {
                 setValue(e.target.value);
               }}
+              onKeyPress={handlePressEnter}
             />
             <button>
               <GoSearch
