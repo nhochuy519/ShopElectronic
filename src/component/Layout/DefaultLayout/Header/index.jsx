@@ -28,7 +28,10 @@ import { useSelector } from 'react-redux';
 
 import { useNavigate } from 'react-router-dom';
 
+import Cookie from 'universal-cookie';
+
 function Header() {
+  const [user, setUser] = useState(null);
   const valueSeach = useSelector((state) => state.search);
 
   useEffect(() => {
@@ -49,6 +52,28 @@ function Header() {
       setValue('');
     }
   };
+
+  const handleLogOut = () => {
+    instance
+      .post('/customer/logOut', {}, { withCredentials: true })
+      .then(() => {
+        console.log('đăng xuất thành công');
+        setUser(null);
+      })
+      .catch(() => {});
+  };
+
+  useEffect(() => {
+    instance
+      .get('/customer/getUserProfile')
+      .then((result) => {
+        console.log(result);
+        setUser(result.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const callApi = (value) => {
     instance.get(`/product?name=${value}&limit=5`).then((result) => {
@@ -158,14 +183,33 @@ function Header() {
                 <strong>0123-456-789</strong>
               </div>
             </div>
+
             <div className={styles.userIcon}>
-              <a href="/login" style={{ color: 'black' }}>
-                <LuUser2
-                  style={{
-                    fontSize: '3rem',
-                  }}
-                />
-              </a>
+              {user ? (
+                <Tippy
+                  render={(attrs) => (
+                    <div className={styles.dropMenu} {...attrs}>
+                      <div>{user.email}</div>
+                      <Link to={'/my-account'}>My account</Link>
+
+                      <div onClick={handleLogOut}>Log out</div>
+                    </div>
+                  )}
+                  zIndex={10000}
+                  placement="bottom"
+                  interactive={true}
+                >
+                  <img className={styles.imgUser} src={user.photo} alt="" />
+                </Tippy>
+              ) : (
+                <a href="/login" style={{ color: 'black' }}>
+                  <LuUser2
+                    style={{
+                      fontSize: '3rem',
+                    }}
+                  />
+                </a>
+              )}
             </div>
             <div className={styles.cartIcon}>
               <a href="/login" style={{ color: 'black' }}>

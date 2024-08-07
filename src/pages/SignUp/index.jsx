@@ -9,20 +9,22 @@ import { useState } from 'react';
 import instance from '`/apiConfig';
 
 function SignUp() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+
+  const [error, setError] = useState(null);
+  const [errorPassword, setErrorPassword] = useState(null);
+
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(username);
-    console.log(password);
-    console.log(passwordConfirm);
 
     instance
       .post(
         '/customer/signup',
         {
-          username: username,
+          email: email,
           password: password,
           passwordConfirm: passwordConfirm,
         },
@@ -31,10 +33,20 @@ function SignUp() {
       .then((res) => {
         console.log(res);
         console.log('thành công');
+        alert('Sign up successful');
+        navigate('/');
       })
       .catch((err) => {
         console.log(err);
-        console.log('thất bại');
+        if (err.response.data.error.code === 11000) {
+          setError('Email already exists');
+          setEmail('');
+        }
+        if (err.response.data.error.name === 'ValidationError') {
+          setErrorPassword('Invalid password');
+          setPassword('');
+          setPasswordConfirm('');
+        }
       });
   };
   return (
@@ -42,14 +54,16 @@ function SignUp() {
       <form onSubmit={handleSubmit} className={styles.form}>
         <h2>Sign up</h2>
         <div className={styles.input}>
-          <p>Username</p>
+          <p>email</p>
           <input
             type="text"
-            placeholder="username"
+            placeholder="email"
             required
-            value={username}
-            onInput={(e) => setUsername(e.target.value)}
+            value={email}
+            onInput={(e) => setEmail(e.target.value)}
+            onFocus={() => setError('')}
           />
+          {error && <p style={{ color: 'red' }}>{error}</p>}
         </div>
         <div className={styles.input}>
           <p>Password</p>
@@ -59,7 +73,9 @@ function SignUp() {
             required
             value={password}
             onInput={(e) => setPassword(e.target.value)}
+            onFocus={() => setErrorPassword('')}
           />
+          {errorPassword && <p style={{ color: 'red' }}>{errorPassword}</p>}
         </div>
         <div className={styles.input}>
           <p>Password confirm</p>

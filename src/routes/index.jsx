@@ -11,6 +11,8 @@ import FAQ from '`/pages/FAQ';
 import PrivacyPolicy from '`/pages/PrivacyPolicy';
 import Product from '`/pages/Product';
 
+import MyAccount from '`/pages/MyAccount';
+
 // public routes
 const publicRouter = [
   {
@@ -71,6 +73,10 @@ const publicRouter = [
   {
     patch: '/privacy-policy',
     component: PrivacyPolicy,
+  },
+  {
+    patch: '/my-account',
+    component: MyAccount,
   },
 ];
 

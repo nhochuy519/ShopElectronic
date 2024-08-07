@@ -261,6 +261,28 @@
     object-fit: contain;
   }
 }
+
+.imgUser {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 999px;
+}
+.dropMenu {
+  box-shadow: 0 0 2px 0.5px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+
+  *:hover {
+    color: var(--main-color-primary);
+  }
+}
 @media screen and (max-width: 990px) {
   .navContainer {
     gap: 20px;

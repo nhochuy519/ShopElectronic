@@ -17,6 +17,7 @@
     "axios": "^1.7.2",
     "clsx": "^2.1.1",
     "firebase": "^10.12.3",
+    "js-cookie": "^3.0.5",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
     "match-sorter": "^6.3.4",
@@ -27,7 +28,8 @@
     "react-router-dom": "^6.23.1",
     "sass": "^1.77.2",
     "sort-by": "^1.2.0",
-    "swiper": "^11.1.4"
+    "swiper": "^11.1.4",
+    "universal-cookie": "^7.2.0"
   },
   "devDependencies": {
     "@rollup/plugin-babel": "^6.0.4",
