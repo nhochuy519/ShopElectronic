@@ -28,8 +28,6 @@ import { useSelector } from 'react-redux';
 
 import { useNavigate } from 'react-router-dom';
 
-import Cookie from 'universal-cookie';
-
 function Header() {
   const [user, setUser] = useState(null);
   const valueSeach = useSelector((state) => state.search);
@@ -59,15 +57,16 @@ function Header() {
       .then(() => {
         console.log('đăng xuất thành công');
         setUser(null);
+        navigate('/login');
       })
       .catch(() => {});
   };
 
+  // lấy profile user
   useEffect(() => {
     instance
       .get('/customer/getUserProfile')
       .then((result) => {
-        console.log(result);
         setUser(result.data.data);
       })
       .catch((err) => {

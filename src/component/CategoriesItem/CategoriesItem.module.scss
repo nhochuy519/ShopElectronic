@@ -17,3 +17,9 @@
     font-size: 22px;
   }
 }
+
+.hoverItem {
+  &:hover {
+    color: white;
+  }
+}

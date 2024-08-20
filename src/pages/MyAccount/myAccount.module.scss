@@ -1,0 +1,192 @@
+.wrapper {
+  width: 100%;
+}
+
+.profileWrapper {
+  margin: 0 auto;
+  max-width: 1440px;
+  padding: 0 20px 0 20px;
+}
+
+.contentWrapper {
+  display: flex;
+  gap: 10px;
+}
+.tabContent {
+  padding: 26px 0 26px 0;
+  max-width: 280px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.content {
+  width: 100%;
+  margin-top: 26px;
+  border-radius: 10px;
+  background-color: var(--1-main-colors--tab);
+  padding: 10px;
+}
+
+.userProfile {
+  display: flex;
+  align-items: center;
+  background-color: var(--1-main-colors--tab);
+  padding: 10px;
+  border-radius: 10px;
+  gap: 10px;
+  img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 99px;
+  }
+}
+.name {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  & > :first-child {
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+  & > :nth-child(2) {
+    &:hover {
+      color: var(--main-color-primary);
+    }
+  }
+}
+.nameUser {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--main-color-primary);
+}
+
+.tabList {
+  background-color: var(--1-main-colors--tab);
+  padding: 10px 0 10px 0;
+  border-radius: 10px;
+  div {
+  }
+}
+.tabItem {
+  padding: 10px;
+}
+.labelInput {
+  align-items: center;
+  margin-top: 5px;
+
+  p {
+    font-size: 1.6rem;
+    font-weight: bold;
+  }
+  input {
+    padding: 12px;
+    width: 100%;
+  }
+}
+
+.tabActive {
+  background-color: var(--main-color-primary);
+
+  color: white;
+}
+
+///
+.content {
+  display: flex;
+  gap: 10px;
+}
+.userContent {
+  flex: 1;
+}
+.imgAvatar {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  img {
+    height: 150px;
+    width: 150px;
+    object-fit: cover;
+    border-radius: 99px;
+  }
+
+  & > :nth-child(2) {
+    font-size: 3rem;
+    background-color: var(--main-color-primary);
+    border-radius: 99px;
+    padding: 5px;
+    color: white;
+  }
+}
+.bttChosePic {
+  background-color: var(--main-color-primary);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+.genderWrapper {
+  p {
+    font-size: 1.6rem;
+    font-weight: bold;
+  }
+
+  & > :nth-child(2) {
+    display: flex;
+    gap: 20px;
+  }
+}
+.number {
+  color: var(--main-color-primary);
+  font-weight: normal;
+}
+.phoneUser {
+  gap: 10px;
+  div {
+    display: flex;
+    gap: 10px;
+  }
+  & > :first-child {
+    font-weight: bold;
+  }
+
+  & > :last-child {
+    cursor: pointer;
+    &:hover {
+      color: var(--main-color-primary);
+    }
+  }
+}
+.dateOfBirth {
+  p {
+    font-size: 1.6rem;
+    font-weight: bold;
+  }
+  input {
+    padding: 5px;
+  }
+}
+
+.errMyaccont {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 20px 0 20px;
+  font-size: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  & > :first-child {
+    font-size: 10rem;
+    color: rgb(194, 143, 66);
+    gap: 15px;
+  }
+}

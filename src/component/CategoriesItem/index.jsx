@@ -9,9 +9,14 @@ import { useDispatch } from 'react-redux';
 import { setValue } from '`/searchReducer/searchSlice';
 import { values } from 'lodash';
 
-function CategoriesItem({ Icon, title, patchName }, ref) {
+import clsx from 'clsx';
+
+function CategoriesItem({ Icon, title, patchName, hover }, ref) {
   const dispatch = useDispatch();
 
+  const classNames = clsx(styles.wrapper, {
+    [styles.hoverItem]: hover,
+  });
   const props = {};
   let Comp = 'div';
   if (patchName) {
@@ -30,7 +35,7 @@ function CategoriesItem({ Icon, title, patchName }, ref) {
 
   return (
     <Comp {...props} className={styles.linkPage}>
-      <div className={styles.wrapper} ref={ref}>
+      <div className={classNames} ref={ref}>
         {Icon ? Icon : null}
         <p>{title}</p>
       </div>

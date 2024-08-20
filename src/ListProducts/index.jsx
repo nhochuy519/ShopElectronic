@@ -10,6 +10,12 @@ import { BsEarbuds } from 'react-icons/bs';
 import { CiCamera } from 'react-icons/ci';
 import { TbDeviceCctv } from 'react-icons/tb';
 
+import { CiUser } from 'react-icons/ci';
+import { TbShoppingCartCopy } from 'react-icons/tb';
+import { FaRegStar } from 'react-icons/fa';
+import { CiHeart } from 'react-icons/ci';
+import { IoKeyOutline } from 'react-icons/io5';
+
 const ListProducts = [
   {
     icon: <IoWatchOutline />,
@@ -114,4 +120,26 @@ const brands = [
   },
 ];
 
-export { ListProducts, listForTab, brands };
+const listUserAccount = [
+  {
+    icon: <CiUser />,
+    name: 'My account',
+  },
+  {
+    icon: <TbShoppingCartCopy />,
+    name: 'My orders',
+  },
+  {
+    icon: <FaRegStar />,
+    name: 'My Ratings',
+  },
+  {
+    icon: <CiHeart />,
+    name: 'My Wishlist',
+  },
+  {
+    icon: <IoKeyOutline />,
+    name: 'Change password',
+  },
+];
+export { ListProducts, listForTab, brands, listUserAccount };
