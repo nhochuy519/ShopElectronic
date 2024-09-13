@@ -10,8 +10,8 @@ import { FaStripe } from 'react-icons/fa';
 import { FaCcVisa } from 'react-icons/fa';
 import { FaCcPaypal } from 'react-icons/fa';
 import { FaCcMastercard } from 'react-icons/fa';
+
 import { SiAmericanexpress } from 'react-icons/si';
-import { FaUser } from 'react-icons/fa';
 
 import Star from '`/component/Star';
 import StarEvaluate from '`/component/StarEvaluate';
@@ -23,33 +23,78 @@ import instance from '`/apiConfig';
 
 import { useParams } from 'react-router-dom';
 
+import { LuLoader2 } from 'react-icons/lu';
+
 import clsx from 'clsx';
 
-// const product = {
-//   images: [
-//     'https://product.hstatic.net/200000722513/product/thumbtainghe_2dabdc1c9373434ab81022d11552600c_a27bc61bd0564a69b22b79b5c08aa857_1024x1024.png',
-//     'https://product.hstatic.net/200000722513/product/tai-nghe-razer-barracuda-x-2022-5_4e32c8395f2e4a908182de7be63375b6_5eb98aba178c40c9bc2041a0b9350489_grande.jpg',
-//     'https://product.hstatic.net/200000722513/product/tai-nghe-razer-barracuda-x-2022-4_aec8d51f27a44546a6a31fc6b30e2b55_589dc33f899b4239a53d230475482c91_grande.jpg',
-//     'https://product.hstatic.net/200000722513/product/tai-nghe-razer-barracuda-x-2022-8_78bc27df494d471ab4287e3d453d56cd_8508e93ea208476f969652122d2f30b0_grande.jpg',
-//   ],
-// };
-
 function Product(props) {
+  const { id } = useParams();
   const [imgCurrent, setImgCurrent] = useState(0);
   const [tab, setTab] = useState('description');
 
   const [product, setProduct] = useState(null);
-  console.log(product);
-  let { id } = useParams();
+
+  const [isLoading, setLoading] = useState(false);
+
+  const [currentIndexTab, setIndex] = useState(0);
+  const [kindIndex, setKindIndex] = useState(0);
+
+  const [stockAvailable, setStockAvailable] = useState(0);
+
+  const [price, setPrice] = useState({ basePrice: null, priceDiscount: null });
+
+  const [quantity, setQuatity] = useState(1);
+
+  const [optionProduct, setOptionProduct] = useState({
+    idProduct: id,
+    idColor: null,
+    idKind: null,
+    quantity: null,
+  });
+
+  const handleAddToCart = () => {
+    console.log(optionProduct);
+  };
   useEffect(() => {
+    console.log(optionProduct);
     window.scrollTo(0, 0); // Cuộn lên đầu trang khi component mount lại
+    setLoading(true);
     if (id) {
       instance(`/product/${id}`).then((result) => {
         setProduct(result.data.data.product);
+        setLoading(false);
+        // const allPrice =
+        //   result.data.data.product.classify[currentIndexTab].kind[0];
+        // setPrice({
+        //   basePrice: allPrice.price,
+        //   priceDiscount: allPrice.priceDiscount,
+        // });
+
+        // setOptionProduct({
+        //   idProduct: id,
+        //   idColor: result.data.data.product.classify[currentIndexTab]._id,
+        //   idKind:
+        //     result.data.data.product.classify[currentIndexTab].kind[kindIndex]
+        //       ._id,
+        //   quantity: quantity,
+        // });
+        // setStockAvailable(
+        //   result.data.data.product.classify[currentIndexTab].kind[kindIndex]
+        //     .quantity,
+        // );
       });
     }
   }, [id]);
 
+  if (isLoading) {
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.loadingContainer}>
+          <LuLoader2 />
+        </div>
+      </div>
+    );
+  }
   return (
     <div className={styles.wrapper}>
       <BBlock
@@ -59,7 +104,7 @@ function Product(props) {
             path: '/shop?category=all',
           },
           {
-            name: 'Razer Headphone',
+            name: `${product && product.category}`,
           },
         ]}
       />
@@ -93,40 +138,137 @@ function Product(props) {
           <div className={styles.startContainer}>
             <Star />
           </div>
-          <div className={styles.priceContainer}>
-            <div style={{ color: 'var(--main-color-primary)' }}>
-              {product ? product.price : ''} $
-            </div>
+          {/* {product && product.classify && (
+            <div className={styles.classify}>
+              <div className={styles.colorProducts}>
+                <span>Color :</span>
+                {product &&
+                  product.classify.map((item, index) => {
+                    return (
+                      <div
+                        className={clsx('', {
+                          [styles.bttActive]:
+                            item._id === optionProduct.idColor,
+                        })}
+                        key={index}
+                        onClick={() => {
+                          setIndex(index);
 
-            <div style={{ color: 'red', textDecoration: 'line-through' }}>
-              {product
-                ? product.priceDiscount
-                  ? `${product.priceDiscount} $`
-                  : ''
-                : '123'}
+                          setOptionProduct((prev) => ({
+                            ...prev,
+                            idColor: item._id,
+                            idKind: item.kind[0]._id,
+                            quantity: 1,
+                          }));
+                          setStockAvailable(item.kind[0].quantity);
+                        }}
+                      >
+                        {item.color}
+                      </div>
+                    );
+                  })}
+              </div>
+              <div className={styles.configuration}>
+                {product &&
+                  product.classify[currentIndexTab].kind.map((item, index) => {
+                    if (item.configuration)
+                      return (
+                        <div
+                          className={clsx('', {
+                            [styles.bttActive]:
+                              item._id === optionProduct.idKind,
+                          })}
+                          key={index}
+                          onClick={() => {
+                            setPrice({
+                              basePrice: item.price,
+                              priceDiscount: item.priceDiscount,
+                            });
+                            setOptionProduct((prev) => ({
+                              ...prev,
+                              idKind: item._id,
+                            }));
+                            setStockAvailable(item.quantity);
+                          }}
+                        >
+                          {item.configuration}
+                        </div>
+                      );
+                  })}
+              </div>
             </div>
+          )} */}
+
+          <div className={styles.priceContainer}>
+            {/* <div style={{ color: 'var(--main-color-primary)' }}>
+              <div style={{ color: 'black', fontWeight: 'bold' }}>Price:</div>
+              {price.priceDiscount ? (
+                <div>
+                  {' '}
+                  <div
+                    style={{ textDecoration: 'line-through', color: 'gray' }}
+                  >
+                    {price.basePrice}${' -'}
+                  </div>
+                  <div>{price.priceDiscount}$</div>
+                </div>
+              ) : (
+                <div> {price.basePrice} $</div>
+              )}
+            </div> */}
           </div>
           <div className={styles.description}>
             <p>{product && product.description}</p>
           </div>
-
           <div className={styles.wrapperCart}>
             <div className={styles.quantityBtt}>
               <div className={styles.quantity}>
-                <input type="text" value={1} />
+                <input type="text" value={optionProduct.quantity} />
                 <div className={styles.buttonQuantity}>
-                  <button>
+                  <button
+                    onClick={() => {
+                      // setOptionProduct((prev) => ({
+                      //   ...prev,
+                      //   quantity:
+                      //     prev.quantity === stockAvailable
+                      //       ? prev.quantity
+                      //       : prev.quantity + 1,
+                      // }));
+                    }}
+                  >
                     <IoMdArrowDropup />
                   </button>
-                  <button>
+                  <button
+                    onClick={() => {
+                      // setOptionProduct((prev) => ({
+                      //   ...prev,
+                      //   quantity: prev.quantity <= 1 ? 1 : prev.quantity - 1,
+                      // }));
+                    }}
+                  >
                     <IoMdArrowDropdown />
                   </button>
                 </div>
               </div>
-              <div>Add to cart</div>
+
+              <div className={styles.addToCart} onClick={handleAddToCart}>
+                Add to cart
+              </div>
+            </div>
+            <div className={styles.quantityProduct}>
+              {stockAvailable} products in stock
+            </div>
+            <div
+              className={styles.inStock}
+              style={
+                optionProduct.quantity === stockAvailable
+                  ? { display: 'block' }
+                  : { display: 'none' }
+              }
+            >
+              The quantity you selected exceeds the maximum
             </div>
           </div>
-
           <div className={styles.IdProductShare}>
             <div className={styles.IdProduct}>
               <span>SKU:</span>
@@ -141,7 +283,6 @@ function Product(props) {
               </div>
             </div>
           </div>
-
           <div className={styles.paymentMethods}>
             <div>Payment Method:</div>
             <div>

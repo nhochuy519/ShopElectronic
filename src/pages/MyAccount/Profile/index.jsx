@@ -204,11 +204,11 @@ function Profile() {
       <div className={styles.imgAvatar}>
         <img
           ref={avatar}
-          // src={
-          //   photo ||
-          //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNzXYh-X4wxX1jfbPywa8HWoNGDnx1Tlo0-g&s'
-          // }
-          src="blob:http://localhost:5173/693e2e25-5905-4232-92bb-91eda591dd0f"
+          src={
+            photo ||
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNzXYh-X4wxX1jfbPywa8HWoNGDnx1Tlo0-g&s'
+          }
+          // src="blob:http://localhost:5173/693e2e25-5905-4232-92bb-91eda591dd0f"
           alt=""
         />
         <LuPencilLine
@@ -220,12 +220,27 @@ function Profile() {
           style={{ display: 'none' }}
           ref={inputFile}
           type="file"
-          accept="image/png, image/jpeg"
+          accept=" image/jpeg"
           onChange={async (e) => {
             const file = e.target.files[0];
 
-            const url = URL.createObjectURL(file);
-            console.log(url);
+            const options = {
+              maxSizeMB: 0.001, // Giới hạn kích thước tối đa ảnh là 10KB
+              maxWidthOrHeight: 500, // Đặt chiều rộng hoặc chiều cao tối đa là 800px
+              useWebWorker: true,
+              quality: 1,
+            };
+            const compressedFile = await imageCompression(file, options);
+
+            if (compressedFile) {
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                const result = reader.result;
+                console.log(result);
+                setPhoto(result);
+              };
+              reader.readAsDataURL(compressedFile);
+            }
           }}
         />
       </div>
