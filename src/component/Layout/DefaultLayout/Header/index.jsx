@@ -28,9 +28,32 @@ import { useSelector } from 'react-redux';
 
 import { useNavigate } from 'react-router-dom';
 
+import { fetchCartItems } from '`/Reducer/cartReducer/cartSlice';
+
+import { useDispatch } from 'react-redux';
+
+import { Badge } from '@mui/material';
+
+import { limitedName } from '`/handleGlobalFunc';
+
 function Header() {
   const [user, setUser] = useState(null);
   const valueSeach = useSelector((state) => state.search);
+  const cartItem = useSelector((state) => state.cart.items.data?.itemsProduct);
+
+  const dispath = useDispatch();
+
+  console.log('cart', cartItem);
+
+  useEffect(() => {
+    dispath(fetchCartItems());
+
+    // instance
+    //   .get('/customer/userCart', { withCredentials: true })
+    //   .then((data) => {
+    //     console.log(data);
+    //   });
+  }, []);
 
   useEffect(() => {
     console.log(valueSeach);
@@ -211,13 +234,62 @@ function Header() {
               )}
             </div>
             <div className={styles.cartIcon}>
-              <a href="/login" style={{ color: 'black' }}>
-                <BsCart3
-                  style={{
-                    fontSize: '3rem',
-                  }}
-                />
-              </a>
+              <Tippy
+                render={(attrs) => (
+                  <div {...attrs} className={styles.showItemsCart}>
+                    {cartItem &&
+                      cartItem.map((item, index) => {
+                        return (
+                          <Link
+                            key={index}
+                            to={`/product/${item.idProduct._id}`}
+                          >
+                            <div className={styles.itemCart}>
+                              <div className={styles.imgContainer}>
+                                <img src={item.idProduct.images[0]} alt="" />
+                              </div>
+                              <div className={styles.nameQuantity}>
+                                <div>
+                                  {' '}
+                                  {limitedName(item.idProduct.name, 3)}
+                                </div>
+
+                                <div>Quantity: x{item.quantity}</div>
+                              </div>
+                              <div className={styles.price}>
+                                {/* {item.idVariantProduct.price}$ */}
+                              </div>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                  </div>
+                )}
+                zIndex={100000}
+                placement="bottom"
+                interactive={true}
+              >
+                <Link to={'/mycart'}>
+                  <Badge
+                    badgeContent={cartItem ? cartItem.length : 0}
+                    color="error"
+                    sx={{
+                      '& .MuiBadge-standard': {
+                        fontSize: '1rem', // Kích thước chữ cho badge
+                        fontWeight: 'bold',
+                      },
+                    }}
+                  >
+                    <a href="/" style={{ color: 'black' }}>
+                      <BsCart3
+                        style={{
+                          fontSize: '3rem',
+                        }}
+                      />
+                    </a>
+                  </Badge>
+                </Link>
+              </Tippy>
             </div>
           </div>
         </nav>

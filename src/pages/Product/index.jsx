@@ -25,7 +25,12 @@ import { useParams } from 'react-router-dom';
 
 import { LuLoader2 } from 'react-icons/lu';
 
+import { useDispatch } from 'react-redux';
+
+import { addToCart, fetchCartItems } from '`/Reducer/cartReducer/cartSlice';
+
 import clsx from 'clsx';
+import { withEmotionCache } from '@emotion/react';
 
 function Product(props) {
   const { id } = useParams();
@@ -36,52 +41,106 @@ function Product(props) {
 
   const [isLoading, setLoading] = useState(false);
 
-  const [currentIndexTab, setIndex] = useState(0);
-  const [kindIndex, setKindIndex] = useState(0);
-
   const [stockAvailable, setStockAvailable] = useState(0);
-
-  const [price, setPrice] = useState({ basePrice: null, priceDiscount: null });
 
   const [quantity, setQuatity] = useState(1);
 
-  const [optionProduct, setOptionProduct] = useState({
-    idProduct: id,
-    idColor: null,
-    idKind: null,
-    quantity: null,
+  const [tabOptions, setTabOptions] = useState(0);
+
+  const [price, setPrice] = useState(0);
+
+  const [cmt, setCmt] = useState([]);
+
+  const [profile, setProfile] = useState(null);
+
+  console.log('profile', profile);
+
+  const dispath = useDispatch();
+
+  const [idConfig, setIdConfig] = useState({
+    idProduct: null,
+    idVariant: null,
   });
 
-  const handleAddToCart = () => {
-    console.log(optionProduct);
+  const [textCmt, setTextCmt] = useState('');
+
+  const [star, setStar] = useState('5 ');
+
+  const getCmt = () => {
+    instance
+      .get(`/customer/userComment?idProduct=${id}`)
+      .then((result) => {
+        const comments = result.data.data.comments;
+        setCmt(comments);
+      })
+      .catch((err) => {
+        console.log('sản phẩm không tồn tại cmt');
+      });
   };
+
+  const handleSubmit = async () => {
+    try {
+      let data = {
+        ...idConfig,
+        quantity,
+        price,
+      };
+      console.log(data.quantity);
+      await dispath(addToCart(data));
+      dispath(fetchCartItems());
+    } catch (error) {
+      console.log('thêm that bai');
+    }
+  };
+
+  const handleCreateCmt = () => {
+    const data = {
+      idProduct: id,
+      text: textCmt,
+      star,
+    };
+    console.log(data);
+    instance
+      .post('/customer/userComment', data, { withCredentials: true })
+      .then((result) => {
+        getCmt();
+      });
+  };
+
   useEffect(() => {
-    console.log(optionProduct);
+    instance
+      .get('/customer/getUserProfile', { withCredentials: true })
+      .then((result) => {
+        setProfile(result.data.data);
+      });
+  }, []);
+
+  useEffect(() => {
+    getCmt();
+  }, []);
+
+  useEffect(() => {
     window.scrollTo(0, 0); // Cuộn lên đầu trang khi component mount lại
     setLoading(true);
     if (id) {
       instance(`/product/${id}`).then((result) => {
-        setProduct(result.data.data.product);
+        setProduct(result.data.data.newObjProduct);
+        console.log(result.data.data.newObjProduct.variantProducts);
+        setIdConfig((prev) => ({
+          idProduct:
+            result.data.data.newObjProduct.variantProducts[0].variants[0]
+              .idProduct,
+          idVariant:
+            result.data.data.newObjProduct.variantProducts[0].variants[0]
+              .idVariant,
+        }));
+        setStockAvailable(
+          result.data.data.newObjProduct.variantProducts[0].variants[0].stock,
+        );
+        setPrice(
+          result.data.data.newObjProduct.variantProducts[0].variants[0].price,
+        );
         setLoading(false);
-        // const allPrice =
-        //   result.data.data.product.classify[currentIndexTab].kind[0];
-        // setPrice({
-        //   basePrice: allPrice.price,
-        //   priceDiscount: allPrice.priceDiscount,
-        // });
-
-        // setOptionProduct({
-        //   idProduct: id,
-        //   idColor: result.data.data.product.classify[currentIndexTab]._id,
-        //   idKind:
-        //     result.data.data.product.classify[currentIndexTab].kind[kindIndex]
-        //       ._id,
-        //   quantity: quantity,
-        // });
-        // setStockAvailable(
-        //   result.data.data.product.classify[currentIndexTab].kind[kindIndex]
-        //     .quantity,
-        // );
       });
     }
   }, [id]);
@@ -138,84 +197,77 @@ function Product(props) {
           <div className={styles.startContainer}>
             <Star />
           </div>
-          {/* {product && product.classify && (
-            <div className={styles.classify}>
-              <div className={styles.colorProducts}>
-                <span>Color :</span>
+          <div className={styles.optionsTitle}>Chose your option</div>
+
+          <div className={styles.optionContainer}>
+            <div className={styles.optionColorContainer}>
+              <div>Color:</div>
+              <div className={styles.optionsColor}>
                 {product &&
-                  product.classify.map((item, index) => {
+                  product.variantProducts.map((item, index) => {
                     return (
                       <div
-                        className={clsx('', {
-                          [styles.bttActive]:
-                            item._id === optionProduct.idColor,
-                        })}
                         key={index}
                         onClick={() => {
-                          setIndex(index);
-
-                          setOptionProduct((prev) => ({
+                          setTabOptions(index);
+                          console.log('itemla', item.variants[0]);
+                          setIdConfig((prev) => ({
                             ...prev,
-                            idColor: item._id,
-                            idKind: item.kind[0]._id,
-                            quantity: 1,
+                            idVariant: item.variants[0].idVariant,
                           }));
-                          setStockAvailable(item.kind[0].quantity);
+                          setStockAvailable(item.variants[0].stock);
+                          setQuatity(1);
+
+                          setPrice(item.variants[0].price);
                         }}
+                        className={clsx('', {
+                          [styles.bttActive]: index === tabOptions,
+                        })}
                       >
-                        {item.color}
+                        {item._id}
                       </div>
                     );
                   })}
               </div>
-              <div className={styles.configuration}>
+            </div>
+
+            <div className={styles.optionsConfigContainer}>
+              <div>Config: </div>
+              <div className={styles.optionsConfig}>
                 {product &&
-                  product.classify[currentIndexTab].kind.map((item, index) => {
-                    if (item.configuration)
+                  product.variantProducts[tabOptions].variants.map(
+                    (item, index) => {
                       return (
                         <div
                           className={clsx('', {
                             [styles.bttActive]:
-                              item._id === optionProduct.idKind,
+                              item.idVariant === idConfig.idVariant,
                           })}
-                          key={index}
                           onClick={() => {
-                            setPrice({
-                              basePrice: item.price,
-                              priceDiscount: item.priceDiscount,
+                            setIdConfig({
+                              idProduct: item.idProduct,
+                              idVariant: item.idVariant,
                             });
-                            setOptionProduct((prev) => ({
-                              ...prev,
-                              idKind: item._id,
-                            }));
-                            setStockAvailable(item.quantity);
+
+                            setStockAvailable(item.stock);
+                            setQuatity(1);
+
+                            setPrice(item.price);
                           }}
+                          key={index}
                         >
                           {item.configuration}
                         </div>
                       );
-                  })}
+                    },
+                  )}
               </div>
             </div>
-          )} */}
+          </div>
 
           <div className={styles.priceContainer}>
-            {/* <div style={{ color: 'var(--main-color-primary)' }}>
-              <div style={{ color: 'black', fontWeight: 'bold' }}>Price:</div>
-              {price.priceDiscount ? (
-                <div>
-                  {' '}
-                  <div
-                    style={{ textDecoration: 'line-through', color: 'gray' }}
-                  >
-                    {price.basePrice}${' -'}
-                  </div>
-                  <div>{price.priceDiscount}$</div>
-                </div>
-              ) : (
-                <div> {price.basePrice} $</div>
-              )}
-            </div> */}
+            <div>Price:</div>
+            <div>{price} $</div>
           </div>
           <div className={styles.description}>
             <p>{product && product.description}</p>
@@ -223,27 +275,25 @@ function Product(props) {
           <div className={styles.wrapperCart}>
             <div className={styles.quantityBtt}>
               <div className={styles.quantity}>
-                <input type="text" value={optionProduct.quantity} />
+                <input type="text" value={quantity} />
                 <div className={styles.buttonQuantity}>
                   <button
                     onClick={() => {
-                      // setOptionProduct((prev) => ({
-                      //   ...prev,
-                      //   quantity:
-                      //     prev.quantity === stockAvailable
-                      //       ? prev.quantity
-                      //       : prev.quantity + 1,
-                      // }));
+                      if (quantity >= stockAvailable) {
+                        return setQuatity((prev) => prev);
+                      }
+                      setQuatity((prev) => prev + 1);
                     }}
                   >
                     <IoMdArrowDropup />
                   </button>
                   <button
                     onClick={() => {
-                      // setOptionProduct((prev) => ({
-                      //   ...prev,
-                      //   quantity: prev.quantity <= 1 ? 1 : prev.quantity - 1,
-                      // }));
+                      console.log(quantity);
+                      if (quantity <= 1) {
+                        return setQuatity(1);
+                      }
+                      setQuatity((prev) => prev - 1);
                     }}
                   >
                     <IoMdArrowDropdown />
@@ -251,23 +301,18 @@ function Product(props) {
                 </div>
               </div>
 
-              <div className={styles.addToCart} onClick={handleAddToCart}>
+              <div className={styles.addToCart} onClick={handleSubmit}>
                 Add to cart
               </div>
             </div>
             <div className={styles.quantityProduct}>
               {stockAvailable} products in stock
             </div>
-            <div
-              className={styles.inStock}
-              style={
-                optionProduct.quantity === stockAvailable
-                  ? { display: 'block' }
-                  : { display: 'none' }
-              }
-            >
-              The quantity you selected exceeds the maximum
-            </div>
+            {quantity === stockAvailable && (
+              <div className={styles.inStock}>
+                The quantity you selected exceeds the maximum
+              </div>
+            )}
           </div>
           <div className={styles.IdProductShare}>
             <div className={styles.IdProduct}>
@@ -347,79 +392,62 @@ function Product(props) {
               <div className={styles.user}>
                 <div className={styles.userImg}>
                   <img
-                    src="https://static2.porn-images-xxx.com/upload/20170306/283/289163/p=305/5.jpg"
+                    src={
+                      profile
+                        ? profile.photo
+                        : 'https://static2.porn-images-xxx.com/upload/20170306/283/289163/p=305/5.jpg'
+                    }
                     alt=""
                   />
                 </div>
 
                 <div className={styles.userNameDate}>
-                  <h3>Nishinomiya Konomi</h3>
+                  <h3>{profile ? profile.username : 'noname'}</h3>
                 </div>
               </div>
               <div className={styles.comment}>
-                <StarEvaluate />
-                <input type="text" placeholder="write a comment" />
+                <StarEvaluate setStar={setStar} />
+                <input
+                  type="text"
+                  placeholder="write a comment"
+                  value={textCmt}
+                  onInput={(e) => {
+                    setTextCmt(e.target.value);
+                  }}
+                />
               </div>
               <div className={styles.submitComment}>
-                <div>Submit</div>
+                <div onClick={handleCreateCmt}>Submit</div>
               </div>
             </div>
-            <div className={styles.userReview}>
-              <div className={styles.user}>
-                <div className={styles.userImg}>
-                  <img
-                    src="https://static2.porn-images-xxx.com/upload/20170306/283/289163/p=305/5.jpg"
-                    alt=""
-                  />
-                </div>
+            {cmt.map((item, index) => {
+              const date = new Date(item.date);
+              const day = date.getDate();
+              const month = date.getMonth() + 1;
+              const year = date.getFullYear();
+              console.log(item.idUser.photo);
+              return (
+                <>
+                  {' '}
+                  <div className={styles.userReview} key={index}>
+                    <div className={styles.user}>
+                      <div className={styles.userImg}>
+                        <img src={item.idUser.photo} alt="" />
+                      </div>
 
-                <div className={styles.userNameDate}>
-                  <h3>Nishinomiya Konomi</h3>
-                  <p>May 15, 2024</p>
-                </div>
-              </div>
-              <div className={styles.comment}>
-                I recently purchased a new laptop and some accessories from
-                ElectronicZ, and I must say, I'm thoroughly impressed with both
-                the range of products they offer and the quality of their
-                service. The website was easy to navigate, making it simple to
-                find exactly what I was looking for. The prices were
-                competitive, and the checkout process was smooth. What stood out
-                to me the most, however, was the exceptional customer service. I
-                had a few questions about the specifications of the laptop I was
-                interested in, and the customer support team was quick to
-                respond and incredibly helpful. They provided me with all the
-                information I needed to make an informed decision.
-              </div>
-            </div>
-            <div className={styles.userReview}>
-              <div className={styles.user}>
-                <div className={styles.userImg}>
-                  <img
-                    src="https://static2.porn-images-xxx.com/upload/20170306/283/289163/p=305/5.jpg"
-                    alt=""
-                  />
-                </div>
-
-                <div className={styles.userNameDate}>
-                  <h3>Nishinomiya Konomi</h3>
-                  <p>May 15, 2024</p>
-                </div>
-              </div>
-              <div className={styles.comment}>
-                I recently purchased a new laptop and some accessories from
-                ElectronicZ, and I must say, I'm thoroughly impressed with both
-                the range of products they offer and the quality of their
-                service. The website was easy to navigate, making it simple to
-                find exactly what I was looking for. The prices were
-                competitive, and the checkout process was smooth. What stood out
-                to me the most, however, was the exceptional customer service. I
-                had a few questions about the specifications of the laptop I was
-                interested in, and the customer support team was quick to
-                respond and incredibly helpful. They provided me with all the
-                information I needed to make an informed decision.
-              </div>
-            </div>
+                      <div className={styles.userNameDate}>
+                        <h3>{item.idUser.username}</h3>
+                        <p>
+                          {day}/{month}/{year}
+                        </p>
+                        <StarEvaluate value={item.star} />
+                      </div>
+                    </div>
+                    <div className={styles.comment}>{item.text}</div>
+                  </div>
+                </>
+              );
+            })}
           </div>
         </div>
       </div>

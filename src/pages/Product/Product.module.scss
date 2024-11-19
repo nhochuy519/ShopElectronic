@@ -94,40 +94,70 @@
     line-height: 140%;
   }
 }
-.classify {
-  display: flex;
-  gap: 10px;
-  flex-direction: column;
+.optionsTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 10px;
 }
-.colorProducts,
-.configuration {
+.optionColorContainer {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin: 10px 0;
+}
+.optionsColor {
   display: flex;
   gap: 10px;
-  align-items: center;
-  font-size: 1.4rem;
-  span {
-    font-size: 1.6rem;
-    font-weight: bold;
-  }
+  width: 100%;
+  flex-wrap: wrap; /* Thêm dòng này để các phần tử có thể xuống hàng */
+
   div {
+    background-color: transparent;
     border: 1px solid var(--1-main-colors--border);
+    display: flex;
+    justify-content: center;
     width: fit-content;
-    padding: 5px 10px;
-    border-radius: 20px;
+    padding: 5px 15px;
+    font-weight: bold;
+    border-radius: 50px;
     cursor: pointer;
-    font-weight: 700;
+    text-transform: capitalize;
   }
-  .bttActive {
-    border: 1px solid var(--main-color-primary);
+}
+
+.bttActive {
+  border: 1px solid var(--main-color-primary) !important;
+}
+.optionsConfigContainer {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+.optionsConfig {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  div {
+    background-color: transparent;
+    border: 1px solid var(--1-main-colors--border);
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+    padding: 5px 15px;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
   }
 }
 .priceContainer {
-  margin-top: 10px;
-  div {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    font-size: 2rem;
+  display: flex;
+  font-size: 3rem;
+  margin-top: 20px;
+  gap: 5px;
+  & > :first-child {
+    color: var(--main-color-primary);
   }
 }
 .description {

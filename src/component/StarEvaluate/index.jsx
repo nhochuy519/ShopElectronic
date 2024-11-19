@@ -7,8 +7,8 @@ import { IoIosStar } from 'react-icons/io';
 import clsx from 'clsx';
 
 const star = [1, 2, 3, 4, 5];
-function StarEvaluate({ style }) {
-  const [numStar, setNumStar] = useState(5);
+function StarEvaluate({ style, setStar, value = false }) {
+  const [numStar, setNumStar] = useState(value || 5);
 
   return (
     <div className={styles.starWrapper} style={style}>
@@ -20,7 +20,10 @@ function StarEvaluate({ style }) {
             })}
             key={index}
             onClick={() => {
-              setNumStar(index);
+              if (!value) {
+                setNumStar(index);
+                setStar(index + 1);
+              }
             }}
           />
         );

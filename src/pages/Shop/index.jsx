@@ -23,7 +23,7 @@ import { useLocation } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setValue } from '`/searchReducer/searchSlice';
+import { setValue } from '`/Reducer/searchReducer/searchSlice';
 import { values } from 'lodash';
 
 function Shop() {

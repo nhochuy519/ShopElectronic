@@ -39,17 +39,18 @@ function Profile() {
     (_, i) => new Date().getFullYear() - i,
   );
 
-  console.log('photo url ');
   const handleChangeProfile = () => {
     const dataPost = { dateOfBirth: `${year}-${month}-${day}` };
     const obj = {
-      name,
+      username: name,
       email,
       address,
       gender,
       phoneNumber,
       photo,
     };
+
+    console.log(name);
 
     Object.keys(obj).forEach((item) => {
       if (obj[item]) {
@@ -67,6 +68,7 @@ function Profile() {
       });
   };
 
+  console.log('username la', name);
   useEffect(() => {
     instance
       .get('/customer/getUserProfile')
@@ -105,7 +107,7 @@ function Profile() {
             type="text"
             value={name}
             onInput={(e) => {
-              setAddress(e.target.value);
+              setName(e.target.value);
             }}
           />
         </div>

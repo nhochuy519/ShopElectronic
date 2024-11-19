@@ -5,8 +5,8 @@ import './index.css';
 import GlobalStyles from './component/GlobalStyle/index.jsx';
 
 import { Provider } from 'react-redux';
-import store from './searchReducer/store.jsx';
 
+import store from './Reducer/store.jsx';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>

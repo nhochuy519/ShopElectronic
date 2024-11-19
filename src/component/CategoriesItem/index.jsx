@@ -6,7 +6,7 @@ import { forwardRef } from 'react';
 import 'tippy.js/dist/tippy.css'; // optional
 
 import { useDispatch } from 'react-redux';
-import { setValue } from '`/searchReducer/searchSlice';
+import { setValue } from '`/Reducer/searchReducer/searchSlice';
 import { values } from 'lodash';
 
 import clsx from 'clsx';

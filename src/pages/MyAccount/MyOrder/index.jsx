@@ -1,136 +1,75 @@
 import styles from './MyOrder.module.scss';
 
+import instance from '`/apiConfig';
+
+import { useEffect, useState } from 'react';
+
 function MyOrder() {
+  const [orders, setOrders] = useState();
+
+  useEffect(() => {
+    instance.get('/customer/userOrder').then((result) => {
+      const data = result.data.data;
+      // console.log('data là', data);
+      // console.log('ngay tao', new Date(data[0].createdAt).getFullYear());
+      setOrders(data);
+    });
+  }, []);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.tilte}>
         <h1>My orders</h1>
       </div>
-      <div className={styles.orders}>
-        <div className={styles.infor}>
-          <div>
-            <p>Order Id:&nbsp; </p>
-            <p className={styles.idOrder}>dfasdkfhjnalskdhjfq1231</p>
-          </div>
-          <div>
-            <p>Order Date:&nbsp; </p>
-            <p>12/3/2001</p>
-          </div>
-        </div>
-        <div className={styles.product}>
-          <img
-            src="https://hobby-genki.com/256694-large_default/reno-summer-spin-off-azur-lane-17-scale-figure.jpg"
-            alt=""
-          />
+      {orders &&
+        orders.map((item, index) => {
+          const date = new Date(item.createdAt);
+          const day = date.getDate();
+          const month = date.getMonth() + 1;
+          const year = date.getFullYear();
+          return (
+            <div className={styles.orders} key={index}>
+              <div className={styles.infor}>
+                <div>
+                  <p>Order Id:&nbsp; </p>
+                  <p className={styles.idOrder}>{item._id}</p>
+                </div>
+                <div>
+                  <p>Created at:&nbsp; </p>
+                  <p>
+                    {day}/{month}/{year}
+                  </p>
+                </div>
+              </div>
 
-          <div>
-            <p>Name: Azur Lane Reno Summer Spin-off</p>
-            <p>Phân loại: 123123</p>
-            <p>Số lượng: 2</p>
-          </div>
-          <div>
-            <p>Giá: 10000$</p>
-          </div>
-        </div>
-        <div className={styles.product}>
-          <img
-            src="https://hobby-genki.com/256694-large_default/reno-summer-spin-off-azur-lane-17-scale-figure.jpg"
-            alt=""
-          />
+              {item.itemsProduct.map((item, index) => {
+                console.log(item);
+                return (
+                  <div className={styles.product} key={index}>
+                    <img src={item.idProduct.images[0]} alt="" />
 
-          <div>
-            <p>Name: Azur Lane Reno Summer Spin-off</p>
-            <p>Phân loại: 123123</p>
-            <p>Số lượng: 2</p>
-          </div>
-          <div>
-            <p>Giá: 10000$</p>
-          </div>
-        </div>
-        <div className={styles.product}>
-          <img
-            src="https://hobby-genki.com/256694-large_default/reno-summer-spin-off-azur-lane-17-scale-figure.jpg"
-            alt=""
-          />
+                    <div>
+                      <p>Name: {item.idProduct.name}</p>
+                      <p>
+                        Config:{' '}
+                        {item.idVariantProduct.configuration || 'Default'}
+                      </p>
+                      <p>Quantity: {item.quantity}</p>
+                    </div>
+                    <div>
+                      <p>Price: {item.price}</p>
+                    </div>
+                  </div>
+                );
+              })}
 
-          <div>
-            <p>Name: Azur Lane Reno Summer Spin-off</p>
-            <p>Phân loại: 123123</p>
-            <p>Số lượng: 2</p>
-          </div>
-          <div>
-            <p>Giá: 10000$</p>
-          </div>
-        </div>
-
-        <div className={styles.total}>
-          <p>Total:&nbsp;</p>
-          <p>178.000 $</p>
-        </div>
-      </div>
-
-      <div className={styles.orders}>
-        <div className={styles.infor}>
-          <div>
-            <p>Order Id:&nbsp; </p>
-            <p className={styles.idOrder}>dfasdkfhjnalskdhjfq1231</p>
-          </div>
-          <div>
-            <p>Order Date:&nbsp; </p>
-            <p>12/3/2001</p>
-          </div>
-        </div>
-        <div className={styles.product}>
-          <img
-            src="https://hobby-genki.com/256694-large_default/reno-summer-spin-off-azur-lane-17-scale-figure.jpg"
-            alt=""
-          />
-
-          <div>
-            <p>Name: Azur Lane Reno Summer Spin-off</p>
-            <p>Phân loại: 123123</p>
-            <p>Số lượng: 2</p>
-          </div>
-          <div>
-            <p>Giá: 10000$</p>
-          </div>
-        </div>
-        <div className={styles.product}>
-          <img
-            src="https://hobby-genki.com/256694-large_default/reno-summer-spin-off-azur-lane-17-scale-figure.jpg"
-            alt=""
-          />
-
-          <div>
-            <p>Name: Azur Lane Reno Summer Spin-off</p>
-            <p>Phân loại: 123123</p>
-            <p>Số lượng: 2</p>
-          </div>
-          <div>
-            <p>Giá: 10000$</p>
-          </div>
-        </div>
-        <div className={styles.product}>
-          <img
-            src="https://hobby-genki.com/256694-large_default/reno-summer-spin-off-azur-lane-17-scale-figure.jpg"
-            alt=""
-          />
-
-          <div>
-            <p>Name: Azur Lane Reno Summer Spin-off</p>
-            <p>Phân loại: 123123</p>
-            <p>Số lượng: 2</p>
-          </div>
-          <div>
-            <p>Giá: 10000$</p>
-          </div>
-        </div>
-
-        <div className={styles.total}>
-          <p>Total:&nbsp;</p>
-          <p>178.000 $</p>
-        </div>
-      </div>
+              <div className={styles.total}>
+                <p>Total:&nbsp;</p>
+                <p> $ {item.total}</p>
+              </div>
+            </div>
+          );
+        })}
     </div>
   );
 }

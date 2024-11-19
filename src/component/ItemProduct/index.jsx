@@ -3,7 +3,7 @@ import styles from './ItemProduct.module.scss';
 import { IoWatchOutline } from 'react-icons/io5';
 
 import { useDispatch } from 'react-redux';
-import { setValue } from '`/searchReducer/searchSlice';
+import { setValue } from '`/Reducer/searchReducer/searchSlice';
 
 import { Link } from 'react-router-dom';
 

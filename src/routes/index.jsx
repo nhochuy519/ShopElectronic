@@ -11,7 +11,11 @@ import FAQ from '`/pages/FAQ';
 import PrivacyPolicy from '`/pages/PrivacyPolicy';
 import Product from '`/pages/Product';
 
+import MyCart from '`/pages/Mycart';
+
 import MyAccount from '`/pages/MyAccount';
+
+import Checkout from '`/pages/Checkout';
 
 // public routes
 const publicRouter = [
@@ -26,6 +30,10 @@ const publicRouter = [
   {
     patch: '/about',
     component: About,
+  },
+  {
+    patch: '/checkout',
+    component: Checkout,
   },
   {
     patch: '/shop/*',
@@ -49,6 +57,10 @@ const publicRouter = [
     component: Product,
   },
   {
+    patch: '/mycart',
+    component: MyCart,
+  },
+  {
     patch: '/sign-up',
     component: SignUp,
     layout: null,
@@ -58,6 +70,7 @@ const publicRouter = [
     component: Login,
     layout: null,
   },
+
   {
     patch: '/on-sale',
     component: Sale,
